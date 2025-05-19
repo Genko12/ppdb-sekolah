@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>PPDB & Mata Pelajaran</title>
+
+  <!-- Link ke CSS Bootstrap untuk animasi -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fbff;
+      color: #222;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    nav {
+      background: linear-gradient(90deg, #003366, #0077cc);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+      height: 50px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+    }
+    nav .logo img {
+      height: 30px;
+      width: auto;
+      margin-right: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      margin-left: 1rem;
+      position: relative;
+    }
+    nav ul li a {
+      display: block;
+      padding: 0.75rem 0.8rem;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+      font-weight: 600;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: #005fa3;
+    }
+
+    /* Dropdown menu */
+    nav ul li ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #004a99;
+      padding: 1rem;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      list-style: none;
+      margin: 0;
+    }
+    nav ul li:hover ul {
+      display: block;
+    }
+
+    /* Mobile nav toggle */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      margin: 4px 0;
+      border-radius: 2px;
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        right: 0;
+        background: #004a99;
+        flex-direction: column;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.3s ease-in-out;
+      }
+      nav ul.show {
+        max-height: 350px;
+      }
+      nav ul li {
+        margin: 0;
+        border-bottom: 1px solid #055aaf;
+      }
+      nav ul li a {
+        padding: 1rem;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    main {
+      padding: 1rem 1.5rem 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    section {
+      margin-top: 2rem;
+      background: white;
+      box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+    }
+    section h2 {
+      color: #003366;
+      margin-top: 0;
+      border-bottom: 3px solid #0077cc;
+      padding-bottom: 0.3rem;
+      font-weight: 700;
+    }
+
+    .ppdb-notice {
+      background: #e6f0ff;
+      border-left: 5px solid #0077cc;
+      padding: 1rem 1.2rem;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .subject-desc {
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .subject-list {
+      margin: 0.5rem 0 0 1.25rem;
+      color: #005a9c;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 1rem;
+      color: #777;
+      font-size: 0.85rem;
+    }
+
+    .scrolling-text {
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+    }
+    .scrolling-text span {
+      display: inline-block;
+      animation: scroll-left 15s linear infinite;
+    }
+
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <img src="logo.jpg" alt="Logo jpg"> 
+    SMK Bina Informatika
+  </div>
+  <div class="menu-toggle" aria-label="Toggle Menu" role="button" tabindex="0">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <ul>
+    <li><a href="#ppdb" class="active">PPDB</a></li>
+    
+    <!-- Dropdown menu for Mata Pelajaran -->
+    <li>
+      <a href="#">Mata Pelajaran</a>
+      <ul>
+        <li><a href="#mm">MM</a></li>
+        <li><a href="#tkj">TKJ</a></li>
+        <li><a href="#rpl">RPL</a></li>
+        <li><a href="#otkp">OTKP</a></li>
+      </ul>
+    </li>
+
+    <li><a href="#ekstrakurikuler">Ekstrakurikuler</a></li>
+  </ul>
+</nav>
+
+<div class="scrolling-text">
+  <span>Selamat datang di SMK Bina Informatika! Pendaftaran PPDB Tahun 2025 telah dibuka, ayo daftar sekarang!</span>
+</div>
+
+<main>
+  <section id="ppdb">
+    <h2>Pemberitahuan PPDB 2025</h2>
+    <div class="ppdb-notice">
+      <p>Penerimaan Peserta Didik Baru (PPDB) Tahun Ajaran 2025 sudah dibuka! Yuk daftarkan dirimu segera untuk bergabung di Sekolah Bina Informatika.</p>
+      <ul>
+        <li>Mulai pendaftaran: 30 April 2025</li>
+        <li>Lokasi pendaftaran: Jl. Re. Abdullah No.16 RT.02/RW.01, Pasir Jaya, Bogor Barat</li>
+        <li>contact person: WhatsApp: <a href="https://wa.me/6289617354862" target="_blank">‪+62 896-1735-4862‬</a></li>
+      </ul>
+      <p>Informasi lebih lanjut hubungi: <a href="mailto:smkbifor@gmail.com">smkbifor@gmail.com</a></p>
+    </div>
+  </section>
+  
+<section id="mm">
+  <h2>Mata Pelajaran MM (Multimedia)</h2>
+  <img src="https://via.placeholder.com/800x300?text=Multimedia" alt="Multimedia" class="img-fluid rounded mb-3">
+  <p class="subject-desc">Di jurusan Multimedia, kamu akan belajar berbagai keterampilan penting di dunia digital kreatif, termasuk desain grafis, video editing, animasi, dan produksi media digital.</p>
+  <ul class="subject-list">
+    <li>Desain Grafis</li>
+    <li>Video Editing</li>
+    <li>Animasi 2D dan 3D</li>
+    <li>Produksi Media Digital</li>
+  </ul>
+</section>
+
+<section id="tkj">
+  <h2>Mata Pelajaran TKJ (Teknik Komputer dan Jaringan)</h2>
+  <img src="https://via.placeholder.com/800x300?text=TKJ" alt="TKJ" class="img-fluid rounded mb-3">
+  <p class="subject-desc">Jurusan TKJ mempersiapkanmu menjadi ahli dalam instalasi, perawatan, dan pengelolaan jaringan komputer serta sistem perangkat keras.</p>
+  <ul class="subject-list">
+    <li>Dasar Jaringan Komputer</li>
+    <li>Konfigurasi Router dan Switch</li>
+    <li>Instalasi Sistem Operasi Server</li>
+    <li>Keamanan Jaringan</li>
+  </ul>
+</section>
+
+<section id="rpl">
+  <h2>Mata Pelajaran RPL (Rekayasa Perangkat Lunak)</h2>
+  <img src="rpl.jpg" alt="RPL" style="height:auto; margin: 20px 0; display: block;
+ margin-left: auto;
+ margin-right: auto;
+ width: 25%;" />
+  <p class="subject-desc">Jurusan RPL menekankan pada pembelajaran programming, pengembangan aplikasi, analisa sistem, dan manajemen proyek perangkat lunak.</p>
+  <ul class="subject-list">
+    <li>Bahasa Pemrograman (Python, Java, dll.)</li>
+    <li>Pengembangan Web dan Mobile</li>
+    <li>Analisa dan Perancangan Sistem</li>
+    <li>Manajemen Proyek Perangkat Lunak</li>
+  </ul>
+</section>
+
+<section id="otkp">
+  <h2>Mata Pelajaran OTKP (Otomatisasi dan Tata Kelola Perkantoran)</h2>
+  <img src="https://via.placeholder.com/800x300?text=OTKP" alt="OTKP" class="img-fluid rounded mb-3">
+  <p class="subject-desc">Jurusan OTKP membekali kamu dengan keterampilan tata kelola administrasi, manajemen kantor, dan penggunaan perangkat lunak perkantoran modern.</p>
+  <ul class="subject-list">
+    <li>Administrasi Perkantoran</li>
+    <li>Pengelolaan Dokumen Digital</li>
+    <li>Software Perkantoran (Microsoft Office, dll.)</li>
+    <li>Komunikasi Bisnis & Pelayanan Pelanggan</li>
+  </ul>
+</section>
+
+<section id="pkm">
+  <h2>Mata Pelajaran PKM (Perbankan dan Keuangan Makro)</h2>
+  <img src="https://via.placeholder.com/800x300?text=PKM" alt="PKM" class="img-fluid rounded mb-3">
+  <p class="subject-desc">Jurusan Perbankan dan Keuangan makro membekali siswa dengan pemahaman mendalam tentang operasional lembaga keuangan, analisis kebijakan moneter, serta dinamika perekonomian secara luas.</p>
+  <ul class="subject-list">
+    <li>Prinsip prinsip Perbankan</li>
+    <li>Manajemen resiko keuangan</li>
+    <li>Investasi</li>
+    <li>Pasar modal</li>
+  </ul>
+</section>
+
+<section id="ekstrakurikuler">
+  <h2>Ekstrakurikuler</h2>
+  <ul class="subject-list">
+    <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalPramuka">Pramuka</a></li>
+    <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalCinema">Cinema</a></li>
+    <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalPMR">PMR</a></li>
+    <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalPaskibra">Paskibra</a></li>
+    <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalKarate">Bandung Karate Club</a></li>
+  </ul>
+</section>
+
+  <!-- Button to Pendaftaran Form -->
+  <div class="d-flex justify-content-center mt-4">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfJBJ3X7KZ_mFypt5ZWgiq8VdpsKxbfTeoHlP_O-DP9ckbU-w/viewform?usp=header" class="btn btn-primary btn-lg shadow-sm animate_animated animate_bounce">Daftar Sekarang!</a>
+  </div>
+
+</main>
+
+<footer>
+  &copy; 2025 Sekolah BINA SMK INFORMATIKA - Semua Hak Dilindungi
+</footer>
+
+<!-- Link ke JS Bootstrap untuk animasi -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // Mobile menu toggle
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navUl = document.querySelector('nav ul');
+  const navLinks = document.querySelectorAll('nav ul li a');
+
+  menuToggle.addEventListener('click', () => {
+    navUl.classList.toggle('show');
+  });
+
+  // Keyboard accessibility for toggle
+  menuToggle.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      navUl.classList.toggle('show');
+    }
+  });
+
+</script>
+
+<div id="modalContainer"></div>
+<script>
+fetch('ekstrakurikuler.html')
+  .then(response => response.text())
+  .then(html => {
+    document.getElementById('modalContainer').innerHTML = html;
+  });
+</script>
+
+</body>
+</html>
